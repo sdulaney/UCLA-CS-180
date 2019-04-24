@@ -1,0 +1,70 @@
+% Stewart Dulaney
+% https://www.stewartdulaney.com
+% This document was adapted from the templates posted at the following sources:
+% https://www.cs.cmu.edu/~ckingsf/class/02-714/hw-template.tex
+% http://www.math-cs.gordon.edu/courses/mat231/handouts/truth-table-latex.tex
+%
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,amsthm,mathabx}
+\usepackage{graphicx}
+\usepackage[margin=1in]{geometry}
+\usepackage{fancyhdr}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt plus 1pt}
+\setlength{\headheight}{13.6pt}
+\newcommand\question[2]{\vspace{.25in}\hrule\textbf{#1: #2}\vspace{.5em}\hrule\vspace{.10in}}
+\renewcommand\part[1]{\vspace{.10in}\textbf{(#1)}}
+\newcommand\answer{\vspace{.10in}\textbf{Answer: }}
+\pagestyle{fancyplain}
+\lhead{\textbf{\NAME\ (SID: \SID)}}
+\chead{\textbf{HW\HWNUM}}
+\rhead{CS 180, \today}
+\begin{document}\raggedright
+%Section A==============Change the values below to match your information==================
+\newcommand\NAME{Stewart Dulaney}  % your name
+\newcommand\SID{904-064-791}     % your ucla student id
+\newcommand\HWNUM{2}              % the homework number
+%Section B==============Put your answers to the questions below here=======================
+
+\question{8.15}{}
+
+\answer
+
+First, we can easily check that the Nearby Electromagnetic Observation Problem belongs to NP: it is a matter of determining how an efficient certifier will make use of a "certificate" string $t$. In this case, the certificate $t$ is the identity of a set $L'$ of at most $k$ locations. The certifier $B$ checks that, for each of the $n$ frequences $j$, there is some location in $L'$ where frequency $j$ is not blocked by any interference source. If the answer is yes, we call $L'$ a sufficient set.\newline
+
+Next, we will use a polynomial-time reduction to prove that the Nearby Electromagnetic Observation Problem is NP-complete. Specifically, we will prove that Vertex Cover $\leq_p$ Nearby Electromagnetic Observation.\newline
+
+Given a graph $G = (V, E)$, let each vertex $v_m$ correspond to a geographic location $l_m$ and each edge $e_j$ correspond to a frequency $f_j$. For each edge $e_j = (v_m, v_n)$, we say that the frequency $f_j$ is blocked by an interference source at all locations except $l_m$ and $l_n$.\newline
+
+If there is a sufficient set of size at most $k$ locations, then each frequency is not blocked in at least one of them. But this means each edge is incident to at least one of the vertices in the set. Thus, by definition the set is a vertex cover in $G$.\newline
+
+Conversely, suppose we have a vertex cover in $G$ consisting of $k$ vertices. By definition of a vertex cover, for each frequency $f_j$ at least one of the corresponding set of locations has $f_j$ unblocked. Therefore, it is a sufficient set.
+
+
+\clearpage
+
+\question{8.22}{}
+
+\answer
+
+We can use a Karp reduction to solve the Independent Set Problem in polynomial time. Assume $k > 1$. Given a graph $G = (V, E)$, suppose we add an additional vertex $v'$ to $G$ and add an edge connecting $v'$ to every vertex in $V$. We call the resulting graph $G'$. If $G$ has an independent set of size at least $k$, then so does $G'$. Conversely, if $G'$ has an independent set of size at least $k$, note that $v'$ will not be in the set because it has an edge to all of the other vertices and $k > 1$. Hence, the set is also an independent set in $G$. So $G$ has an independent set of size at least $k$ if and only if $G'$ does. We can construct $G'$ and call our black-box algorithm $A$ once in polynomial time.
+
+\clearpage
+
+\question{8.36}{}
+
+\answer
+
+First, we can easily check that the Daily Special Scheduling Problem belongs to NP. For a given order in which to make the $k$ specials, it is trivial to verify that the total money spent on ingredients over the course of all $k$ days is at most $x$ dollars.\newline
+
+Next, we will use a polynomial-time reduction to prove that the Daily Special Scheduling Problem is NP-complete. Specifically, we will prove that Hamiltonian Path $\leq_p$ Daily Special Scheduling.\newline
+
+Suppose we have a directed graph $G = (V, E)$ with $k$ vertices and $m$ edges. Let each vertex represent a daily special and each edge represent an ingredient needed to make the daily specials it connects. Specifically, each special requires one gram of an ingredient for an edge incident on the vertex. In our instance of the Daily Special Scheduling Problem, for an ingredient $I_j$ let $s(j) = 2$ grams, $c(j) = 1$ dollar, and $t(j) = 2$ days.\newline
+
+We will prove that there is a Hamiltonian path in $G$ if and only if there is a way to schedule all daily specials at a cost of $2m - k + 1$.\newline
+
+If there is a Hamiltonian path in $G$, we can use this order to save money on the $k - 1$ ingredients represented by the edges on the path. This yields a total cost of $2m - (k - 1) = 2m - k + 1$ dollars (because each ingredient is required for two recipes). Conversely, suppose we have an order for the specials with total cost $2m - k + 1$ dollars. Since each ingredient is needed in two recipes, there must be $k - 1$ ingredients that were only purchased once (because the two specials that needed the ingredient were ordered consecutively in the right order). It follows that there is a directed edge between the two vertices corresponding to the specials in the right order. Therefore, there is a Hamiltonian path in $G$.
+
+\clearpage
+
+\end{document}
